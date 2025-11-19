@@ -32,8 +32,7 @@ async  function cadastrar() {
             console.error("Erro:", erro);
             alert("Erro ao cadastrar o cliente.");
         }
-
-
+        
     }
 }
 

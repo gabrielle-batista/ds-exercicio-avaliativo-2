@@ -23,6 +23,7 @@ $(document).ready(function(){
     
 }*/
 
+//REQUISITO FUNCIONAL 04 - CADASTRAR CONTA
 function gerarNumConta(nome) {
     const letras = nome.substring(0, 2).toUpperCase();
     const numero = Math.floor(100000 + Math.random() * 900000);
@@ -37,7 +38,7 @@ function cadastrarConta() {
 
     let numero;
     do {
-        numero = gerarNumeroConta(cliente.nome);
+        numero = gerarNumConta(cliente.nome);
     } while (contas.some(c => c.numero === numero));
 
     // cria conta
@@ -53,3 +54,7 @@ function cadastrarConta() {
 
     alert("Conta criada: " + numero);
 }
+
+//REQUISITO FUNCIONAL 05 - REALIZAR OPERAÇÃO FINANCEIRA
+
+//REQUISITO FUNCIONAL 06 - CONSULTAR EXTRATO
