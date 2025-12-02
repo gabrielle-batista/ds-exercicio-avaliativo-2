@@ -15,6 +15,10 @@ async function autenticar() {
         cliente.cpf = $("#cpf").val();
         cliente.senha = $("#senha").val();
 
+        localStorage.setItem("clienteAutenticado", JSON.stringify(cliente));
+        localStorage.setItem("ultimaAcao", Date.now());
+
+
         try {
             let resposta = await fetch("http://localhost:8888/api/clientes/login", {
                 method: "POST",
