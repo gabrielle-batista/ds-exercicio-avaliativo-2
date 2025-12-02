@@ -1,13 +1,7 @@
-// =========================================
-// ARQUIVO: operacoes.js (VERSÃO FINAL)
-// =========================================
-
+//RF-05: Realizar Operação Financeira
 const BASE_URL = "http://localhost:8888/api";
-// Troque aqui se for rodar local ou no servidor do professor
 
-/* =========================================
-   Verifica sessão do cliente
-========================================= */
+//Verifica sessão do cliente
 function obterClienteAutenticado() {
     const cliente = JSON.parse(localStorage.getItem("clienteAutenticado"));
     if (!cliente) {
@@ -18,9 +12,7 @@ function obterClienteAutenticado() {
     return cliente;
 }
 
-/* =========================================
-   CARREGAR CONTAS DO CLIENTE NO SELECT
-========================================= */
+//Carregar contas do cliente
 async function carregarContasSelect() {
     const cliente = obterClienteAutenticado();
     if (!cliente) return;
@@ -48,9 +40,7 @@ async function carregarContasSelect() {
     }
 }
 
-/* =========================================
-   LISTAR LANÇAMENTOS DA CONTA SELECIONADA
-========================================= */
+//Listar lançamentos da conta selecionada
 async function listarOperacoes() {
     const idConta = obterIdContaDaURL();
     if (!idConta) return;
@@ -79,24 +69,20 @@ async function listarOperacoes() {
     }
 }
 
-/* =========================================
-   OBTER CONTA SELECIONADA VIA URL
-========================================= */
+//OBTER CONTA SELECIONADA VIA URL
 function obterIdContaDaURL() {
     const params = new URLSearchParams(window.location.search);
     return params.get("idConta");
 }
 
-// =========================
-// REGISTRO DE EXTRATO
-// =========================
-function registrarExtrato(conta, tipo, valor) {
+//REGISTRO DE EXTRATO
+function registrarExtrato(conta, tipo, valor, data) {
     const cliente = JSON.parse(localStorage.getItem("clienteAutenticado"));
 
     const novoLancamento = {
         tipo,
         valor,
-        data: new Date().toLocaleString()
+        data: new Date().toISOString()
     };
 
     if (!conta.extrato) {
@@ -115,6 +101,7 @@ async function salvarOperacao() {
 
     const tipo = document.getElementById("tipoOperacao").value;
     const valor = Number(document.getElementById("valor").value);
+    const data = new Date().toISOString();
     const idConta = Number(document.getElementById("numeroConta").value);
 
     if (!tipo || valor <= 0 || !idConta) {
@@ -150,6 +137,7 @@ async function salvarOperacao() {
         id: null,
         valor: valor,
         tipo: tipo,
+        data: data,
         idConta: idConta
     };
 
