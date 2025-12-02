@@ -2,7 +2,7 @@ $(document).ready(function () {
     listarContas();
 });
 
-// 🔵 Lista as contas do cliente logado
+// Lista as contas do cliente logado
 async function listarContas() {
     let cliente = JSON.parse(localStorage.getItem("clienteAutenticado"));
     if (!cliente) {

@@ -57,7 +57,6 @@ async function carregarCliente() {
     // Coloca o nome do cliente no header
     $("#nome").text(cliente.nome);
 
-    // 🔥 Atualizar contas e saldo total SEMPRE que entrar no menu
     try {
         let respContas = await fetch(`http://localhost:8888/api/contas/cliente/${cliente.id}`);
 

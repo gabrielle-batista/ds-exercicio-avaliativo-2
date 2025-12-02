@@ -94,9 +94,8 @@ function registrarExtrato(conta, tipo, valor, data) {
     localStorage.setItem("clienteAutenticado", JSON.stringify(cliente));
 }
 
-/* =========================================
-   SALVAR OPERAÇÃO (DEPÓSITO / SAQUE)
-========================================= */
+//SALVAR OPERAÇÃO (DEPÓSITO / SAQUE)
+
 async function salvarOperacao() {
 
     const tipo = document.getElementById("tipoOperacao").value;
@@ -109,9 +108,7 @@ async function salvarOperacao() {
         return;
     }
 
-    // ================================
     //   VALIDAÇÃO DE SALDO PARA SAQUE
-    // ================================
     try {
         const respConta = await fetch(`${BASE_URL}/contas/${idConta}`);
 
@@ -130,9 +127,7 @@ async function salvarOperacao() {
         return;
     }
 
-    // ================================
     // DADOS DA OPERAÇÃO
-    // ================================
     const dados = {
         id: null,
         valor: valor,
@@ -154,7 +149,6 @@ async function salvarOperacao() {
             return;
         }
 
-        // Depois que a API salvar a operação com sucesso:
         alert("Operação registrada com sucesso!");
 
         // Atualizar extrato local
@@ -163,9 +157,7 @@ async function salvarOperacao() {
 
         registrarExtrato(conta, tipo, valor);
 
-        // ================================
         // ATUALIZAR CONTAS DO CLIENTE APÓS A OPERAÇÃO
-        // ================================
         const clienteAtualizadoResp = await fetch(`${BASE_URL}/contas/cliente/${cliente.id}`);
         if (clienteAtualizadoResp.ok) {
             const contasAtualizadas = await clienteAtualizadoResp.json();
@@ -186,9 +178,7 @@ async function salvarOperacao() {
     }
 }
 
-/* =========================================
-   REDIRECIONAR PARA NOVA OPERAÇÃO
-========================================= */
+//REDIRECIONAR PARA NOVA OPERAÇÃO
 function novaOperacao() {
     window.location.href = "operacoes.html";
 }
