@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova Operação - OBank</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body>
+    <div class="container mt-4">
+
+        <!--Cabeçalho -->
+        <header id="cabecalho" class="row">
+            <div class="col-6 d-flex align-items-end">
+                <a href="menu.html">
+                    <img src="img/icone.png" alt="logo" class="icone-cabecalho">
+                </a>
+
+            </div>
+            <div class="col-6 d-flex align-items-end justify-content-end">
+                <span class="fw-bold">Cliente: <span id="nome" class="text-danger">?</span></span>
+            </div>
+        </header>
+
+        <!--Corpo -->
+        <h2 class="mb-3">Registrar Operação</h2>
+
+         <form onsubmit="event.preventDefault(); salvarOperacao();">
+
+            <div class="mb-3">
+                <label class="form-label">Tipo de Operação</label>
+                <select id="tipoOperacao" class="form-select" required>
+                    <option value="DEPOSITO">Depósito</option>
+                    <option value="SAQUE">Saque</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Conta</label>
+                <select id="numeroConta" class="form-select" required>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Valor</label>
+                <input type="number" step="0.01" min="0.01" id="valor" class="form-control" required>
+            </div>
+
+            <button type="submit" class="btn btn-success">Salvar</button>
+            <a href="menu.html" class="btn btn-secondary">Voltar</a>
+        </form>
+    </div>
+
+    <script src="js/layout.js"></script>
+    <script src="js/operacoes.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarContasSelect();
+        });
+    </script>
+
+</body>
+</html>

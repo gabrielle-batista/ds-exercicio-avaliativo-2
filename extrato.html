@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extrato</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/estilos.css" />
+</head>
+
+<body>
+    <div class="container mt-4">
+
+        <!--Cabeçalho -->
+        <header id="cabecalho" class="row">
+            <div class="col-6 d-flex align-items-end">
+                <a href="menu.html">
+                    <img src="img/icone.png" alt="logo" class="icone-cabecalho">
+                </a>
+
+            </div>
+            <div class="col-6 d-flex align-items-end justify-content-end">
+                <span class="fw-bold">Cliente: <span id="nome" class="text-danger">?</span></span>
+            </div>
+        </header>
+
+        <!--Corpo -->
+        <h3>Meus Extratos</h3>
+
+        <div class="mb-3">
+            <label class="form-label">Conta</label>
+            <select id="numeroConta" class="form-select" required>
+            </select>
+        </div>
+
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th>Data</th>
+                <th>Valor</th>
+                <th>Transação</th>
+            </tr>
+            </thead>
+            <tbody id="listaExtrato">
+            </tbody>
+        </table>
+
+        <button class="btn btn-primary" onclick="carregarExtratoParaValorSelecionado()">Confirmar</button>
+        <a href="menu.html" class="btn btn-secondary">Voltar</a>
+    </div>
+
+    <script src="js/layout.js"></script>
+    <script src="js/operacoes.js"></script>
+    <script src="js/extrato.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            carregarContasSelect();
+        });
+    </script>
+
+</body>
+</html>

@@ -6,22 +6,10 @@ $(document).ready(function(){
         var cliente = JSON.parse(localStorage.getItem('clienteAutenticado'));
         var primeiroNome = cliente.nome.substr(0, cliente.nome.indexOf(' '));
         $("#nome").text(primeiroNome);
+        carregarCliente();
     }
     
 })
-
-//O menu é a camada que gerencia as operações do sistema após o login do cliente;
-
-/*async function atualizarSaldo(idCliente) {
-    let saldo = 0;
-
-    try {
-        
-    } catch (error) {
-        
-    }
-    
-}*/
 
 //REQUISITO FUNCIONAL 04 - CADASTRAR CONTA
 function gerarNumConta(nome) {
@@ -30,31 +18,68 @@ function gerarNumConta(nome) {
     return `${letras}-${numero}`;
 }
 
-function cadastrarConta() {
-    let cliente = JSON.parse(localStorage.getItem('clienteAutenticado'));
+async function cadastrarConta() {
+    let cliente = JSON.parse(localStorage.getItem("clienteAutenticado"));
 
-    // pega todas as contas do sistema
-    let contas = JSON.parse(localStorage.getItem('contas')) || [];
+    try {
+        let resposta = await fetch("http://localhost:8888/api/contas", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                numero: gerarNumConta(cliente.nome),
+                idCliente: cliente.id
+            })
+        });
 
-    let numero;
-    do {
-        numero = gerarNumConta(cliente.nome);
-    } while (contas.some(c => c.numero === numero));
+        if (!resposta.ok) {
+            alert("Erro ao criar conta");
+            return;
+        }
 
-    // cria conta
-    const novaConta = {
-        numero: numero,
-        saldo: 0,
-        cpf: cliente.cpf   // identifica o dono da conta
-    };
+        alert("Conta criada com sucesso!");
+        listarContas(); // recarrega tabela se você estiver na página contas.html
 
-    // salva no sistema
-    contas.push(novaConta);
-    localStorage.setItem('contas', JSON.stringify(contas));
-
-    alert("Conta criada: " + numero);
+    } catch (error) {
+        console.error(error);
+        alert("Erro interno.");
+    }
 }
 
-//REQUISITO FUNCIONAL 05 - REALIZAR OPERAÇÃO FINANCEIRA
+async function carregarCliente() {
+    let cliente = JSON.parse(localStorage.getItem("clienteAutenticado"));
 
-//REQUISITO FUNCIONAL 06 - CONSULTAR EXTRATO
+    if (!cliente) {
+        alert("Sessão expirada!");
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Coloca o nome do cliente no header
+    $("#nome").text(cliente.nome);
+
+    // 🔥 Atualizar contas e saldo total SEMPRE que entrar no menu
+    try {
+        let respContas = await fetch(`http://localhost:8888/api/contas/cliente/${cliente.id}`);
+
+        if (!respContas.ok) throw new Error("Erro ao buscar contas");
+
+        let contas = await respContas.json();
+
+        // recalcular saldo total
+        let saldoTotal = contas.reduce((s, c) => s + c.saldo, 0);
+
+        // atualizar cliente no localStorage
+        cliente.contas = contas;
+        cliente.saldoTotal = saldoTotal;
+
+        localStorage.setItem("clienteAutenticado", JSON.stringify(cliente));
+
+        // atualizar exibição no menu
+        $("#saldoTotal").text(`R$ ${saldoTotal.toFixed(2)}`);
+
+    } catch (e) {
+        console.log(e);
+        alert("Erro ao atualizar informações da conta.");
+    }
+}
+

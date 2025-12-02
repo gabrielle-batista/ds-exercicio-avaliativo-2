@@ -16,7 +16,7 @@ async function autenticar() {
         cliente.senha = $("#senha").val();
 
         try {
-            let resposta = await fetch("http://18.229.132.2:8888/api/clientes/login", {
+            let resposta = await fetch("http://localhost:8888/api/clientes/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -26,11 +26,26 @@ async function autenticar() {
 
             if (!resposta.ok) {
                 alert("CPF ou senha inválidos.");
-            }else{
-                let retorno = await resposta.json();
-                localStorage.setItem('clienteAutenticado', JSON.stringify(retorno));
+            } else {
+                let cliente = await resposta.json();
+
+                // 1) Baixar as contas do cliente
+                let respContas = await fetch(`http://localhost:8888/api/contas/cliente/${cliente.id}`);
+                let contas = await respContas.json();
+
+                // 2) Calcular saldo total
+                let saldoTotal = contas.reduce((s, c) => s + c.saldo, 0);
+
+                // 3) Salvar tudo no localStorage
+                cliente.contas = contas;
+                cliente.saldoTotal = saldoTotal;
+
+                localStorage.setItem('clienteAutenticado', JSON.stringify(cliente));
+
                 window.location.href = "menu.html";
             }
+
+
 
         } catch (erro) {
             console.log(erro)
