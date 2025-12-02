@@ -1,7 +1,7 @@
 # 💰 Sistema Bancário — Exercício Avaliativo II
 
 Projeto desenvolvido para a disciplina **Desenvolvimento de Sistemas** do curso de **Engenharia de Computação – CEFET-MG / Unidade Timóteo**.  
-
+O projeto está configurado para rodar em localhost. 
 ---
 
 ## 🎯 Objetivo do Sistema
